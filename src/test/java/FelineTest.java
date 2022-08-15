@@ -1,27 +1,24 @@
 import com.example.Feline;
+import com.sun.jdi.PrimitiveValue;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-
 import java.util.List;
+import java.util.PrimitiveIterator;
 
 @RunWith(Parameterized.class)
-public class FelineTests {
-
+public class FelineTest {
     private Feline feline;
     private int getKittensParameter;
 
 
-    public static Object[][] getData(){
-        return new Object[][]{
-                {1},
-                {2},
-                {3}
-        };
+    @Parameterized.Parameters(name = "Тестовые данные: {0}")
+    public static Object[][] getData() {
+        return new Object[][]{{1}, {2}, {3}};
     }
 
-    public FelineTests(int getKittensParameter){
+    public FelineTest(int getKittensParameter) {
         this.getKittensParameter = getKittensParameter;
     }
 
@@ -30,31 +27,29 @@ public class FelineTests {
         List<String> expected = List.of("Трава", "Различные растения");
         feline = new Feline();
         List<String> actual = feline.eatMeat();
-        Assert.assertEquals("Method eatMeat returns incorrect value",actual,actual);
+        Assert.assertEquals("Method eatMeat returns incorrect value", actual, actual);
     }
 
     @Test
-    public void getFamilyCorrectValue(){
+    public void getFamilyCorrectValue() {
         feline = new Feline();
         String expected = "Кошачьи";
         String actual = feline.getFamily();
-        Assert.assertEquals("Method getFamily returns incorrect values",expected,actual);
+        Assert.assertEquals("Method getFamily returns incorrect values", expected, actual);
     }
 
     @Test
-    public void getKittensCorrectValueWithoutParameters(){
+    public void getKittensCorrectValueWithoutParameters() {
         feline = new Feline();
         int expected = 1;
         int actual = feline.getKittens();
-        Assert.assertEquals("Method getKittens returns incorrect value",expected,actual);
+        Assert.assertEquals("Method getKittens returns incorrect value", expected, actual);
     }
 
-    public void getKittensCorrectValuesWithParameters(){
+    @Test
+    public void getKittensCorrectValuesWithParameters() {
         feline = new Feline();
         int actual = feline.getKittens(getKittensParameter);
-        Assert.assertEquals("Method getKittens returns incorrect value", getKittensParameter,actual);
+        Assert.assertEquals("Method getKittens returns incorrect value", getKittensParameter, actual);
     }
-
-
-
 }

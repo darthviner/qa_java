@@ -8,40 +8,32 @@ import org.junit.runners.Parameterized;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.Spy;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RunWith(Parameterized.class)
-public class LionTests {
-
+public class LionTest {
     private Lion lion;
     private Boolean actualResultlionDoesHaveMane;
     private Boolean expectedResultDoesHaveMane;
     private String sex;
     private List<String> expectedgetFoodTest;
-
     @Mock
     private Feline feline;
 
-    public LionTests(Boolean actualResultlionDoesHaveMane, Boolean expectedResultDoesHaveMane, String sex, List<String> expectedgetFoodTest){
-        //feline = new Feline();
+    public LionTest(Boolean actualResultlionDoesHaveMane, Boolean expectedResultDoesHaveMane, String sex, List<String> expectedgetFoodTest) {
         this.expectedResultDoesHaveMane = expectedResultDoesHaveMane;
         this.actualResultlionDoesHaveMane = actualResultlionDoesHaveMane;
-        //this.lion = lion;
         this.sex = sex;
         this.expectedgetFoodTest = List.of("Животные", "Птицы", "Рыба");
     }
 
-    @Parameterized.Parameters
-    public static Object[][] getData(){
+    @Parameterized.Parameters(name = "Тестовые данные: {0} {1} {2} {3}")
+    public static Object[][] getData() {
         //Lion lion1 = new Lion("Самей")
-        return new Object[][]{
-                {true,true,"Самец",List.of("Животные", "Птицы", "Рыба")},
-                {false,false,"Самка",List.of("Животные", "Птицы", "Рыба")},
-                {null,null,"блабла",null} //а как протестировать случай с неправильным значением sex?
-
+        return new Object[][]{{true, true, "Самец", List.of("Животные", "Птицы", "Рыба")},
+                {false, false, "Самка", List.of("Животные", "Птицы", "Рыба")},
+                //{null,null,"блабла",null} //а как протестировать случай с неправильным значением sex?
         };
     }
 
@@ -52,29 +44,24 @@ public class LionTests {
 
     @Test
     public void lionDoesHaveManeCorrectValueTest() throws Exception {
-        //feline = new Feline();
-        lion = new Lion(sex,feline);
+        lion = new Lion(sex, feline);
         actualResultlionDoesHaveMane = lion.doesHaveMane();
-
-        Assert.assertEquals("Method doesHaveMane returns incorrect value",expectedResultDoesHaveMane,actualResultlionDoesHaveMane);
+        Assert.assertEquals("Method doesHaveMane returns incorrect value", expectedResultDoesHaveMane, actualResultlionDoesHaveMane);
     }
 
     @Test
     public void lionGetKittensCorrectValue() throws Exception {
         Mockito.when(feline.getKittens()).thenReturn(1);
-        lion = new Lion(sex,feline);
+        lion = new Lion(sex, feline);
         int actuaResult = lion.getKittens();
-
-        Assert.assertEquals("Method getKittens returns incorrect value",1,actuaResult);
+        Assert.assertEquals("Method getKittens returns incorrect value", 1, actuaResult);
     }
 
     @Test
     public void lionGetFoodCorrectValue() throws Exception {
-
         lion = new Lion(sex, feline);
-
         Mockito.when(feline.getFood(Mockito.anyString())).thenReturn(expectedgetFoodTest);
         List<String> actualGetFoodTestResult = lion.getFood();
-        Assert.assertEquals("Method getFood returns incorrect value",expectedgetFoodTest,actualGetFoodTestResult);
+        Assert.assertEquals("Method getFood returns incorrect value", expectedgetFoodTest, actualGetFoodTestResult);
     }
 }
